@@ -1,5 +1,6 @@
 package com.fabianofranca.flight.providers.api
 
+import com.fabianofranca.flight.providers.SearchData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,7 +17,7 @@ interface Api {
         @Query("format") format: String = ApiValues.FORMAT,
         @Query("dateofarrival") dateOfArrival: String? = null,
         @Query("adults") adults: Int = 1,
-        @Query("counter") counter: Int = 100): Call<Any>
+        @Query("counter") counter: Int = 100): Call<SearchData>
 }
 
 object ApiValues {
