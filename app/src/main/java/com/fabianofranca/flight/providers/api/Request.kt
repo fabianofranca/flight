@@ -49,12 +49,23 @@ class RequestAdapterFactory : CallAdapter.Factory() {
             val response = call.execute()
 
             if (!response.isSuccessful) {
-                throw RuntimeException("HTTP Error code:${response.code()}. message: ${response.message()}.")
+                throw HttpException(response.code(), response.message())
             }
 
-            return@async response.body() ?: throw RuntimeException("Null body exception")
+            return@async response.body() ?: throw UnexpectedServerException()
         } catch (e: Exception) {
-            throw e
+            throw when(e) {
+                is HttpException -> e
+                else -> UnexpectedServerException(e)
+            }
         }
     }
 }
+
+class UnexpectedServerException() : RuntimeException() {
+    constructor(cause: Throwable): this() {
+        initCause(cause)
+    }
+}
+
+class HttpException(val code: Int, message: String) : RuntimeException(message)
