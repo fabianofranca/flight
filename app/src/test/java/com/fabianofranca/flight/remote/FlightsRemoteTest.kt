@@ -11,7 +11,7 @@ import org.junit.rules.ExpectedException
 import java.util.*
 import kotlin.test.assertNotNull
 
-class FlightsRemoteTest : ProviderBaseTest<Api>(Api::class) {
+class FlightsRemoteTest : RemoteBaseTest<Api>(Api::class) {
 
     private lateinit var provider: FlightsRemote
 

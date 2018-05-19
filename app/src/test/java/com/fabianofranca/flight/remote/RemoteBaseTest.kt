@@ -6,7 +6,7 @@ import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import kotlin.reflect.KClass
 
-abstract class ProviderBaseTest<out T : Any>(kclass: KClass<T>) : BaseTest() {
+abstract class RemoteBaseTest<out T : Any>(kclass: KClass<T>) : BaseTest() {
 
     protected val mockWebServer: MockWebServer = MockWebServer()
     protected val api: T
