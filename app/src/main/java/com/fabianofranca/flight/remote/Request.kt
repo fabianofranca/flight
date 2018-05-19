@@ -1,4 +1,4 @@
-package com.fabianofranca.flight.providers.api
+package com.fabianofranca.flight.remote
 
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -49,12 +49,15 @@ class RequestAdapterFactory : CallAdapter.Factory() {
             val response = call.execute()
 
             if (!response.isSuccessful) {
-                throw HttpException(response.code(), response.message())
+                throw HttpException(
+                    response.code(),
+                    response.message()
+                )
             }
 
             return@async response.body() ?: throw UnexpectedServerException()
         } catch (e: Exception) {
-            throw when(e) {
+            throw when (e) {
                 is HttpException -> e
                 else -> UnexpectedServerException(e)
             }
@@ -63,7 +66,7 @@ class RequestAdapterFactory : CallAdapter.Factory() {
 }
 
 class UnexpectedServerException() : RuntimeException() {
-    constructor(cause: Throwable): this() {
+    constructor(cause: Throwable) : this() {
         initCause(cause)
     }
 }

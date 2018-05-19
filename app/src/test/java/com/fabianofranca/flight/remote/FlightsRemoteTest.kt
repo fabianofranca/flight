@@ -1,21 +1,19 @@
-package com.fabianofranca.flight.providers
+package com.fabianofranca.flight.remote
 
-import com.fabianofranca.flight.providers.api.Api
-import com.fabianofranca.flight.providers.api.HttpException
-import com.fabianofranca.flight.providers.api.UnexpectedServerException
+import com.fabianofranca.flight.remote.model.SearchData
 import com.google.gson.Gson
 import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.mockwebserver.MockResponse
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import java.util.*
+import kotlin.test.assertNotNull
 
-class FlightsProviderTest : ProviderBaseTest<Api>(Api::class) {
+class FlightsRemoteTest : ProviderBaseTest<Api>(Api::class) {
 
-    private lateinit var provider: FlightsProvider
+    private lateinit var provider: FlightsRemote
 
     @Rule
     @JvmField
@@ -23,15 +21,15 @@ class FlightsProviderTest : ProviderBaseTest<Api>(Api::class) {
 
     @Before
     fun setup() {
-        provider = FlightsProviderImpl(api)
+        provider = FlightsRemoteImpl(api)
     }
 
     @Test
-    fun flightsProvider_shouldSearchFlights() {
+    fun flightsRemote_shouldSearchFlights() {
 
         var searchData: SearchData? = null
 
-        mockWebServer.enqueue(MockResponse().setBody(Gson().toJson(SearchData(Data(emptySet())))))
+        mockJsonResponse(FLIGHTS_JSON)
 
         runBlocking {
             searchData = provider.search("", "", Calendar.getInstance().time).await()
@@ -41,7 +39,7 @@ class FlightsProviderTest : ProviderBaseTest<Api>(Api::class) {
     }
 
     @Test(expected = UnexpectedServerException::class)
-    fun flightsProvider_shouldSearchAndThrowErrorBecauseNullBody() {
+    fun flightsRemote_shouldSearchAndThrowErrorBecauseNullBody() {
         mockWebServer.enqueue(MockResponse().setBody(Gson().toJson(null)))
 
         runBlocking {
@@ -50,7 +48,7 @@ class FlightsProviderTest : ProviderBaseTest<Api>(Api::class) {
     }
 
     @Test(expected = UnexpectedServerException::class)
-    fun flightsProvider_shouldSearchAndThrowErrorBecauseUnknownBehavior() {
+    fun flightsRemote_shouldSearchAndThrowErrorBecauseUnknownBehavior() {
         mockWebServer.enqueue(MockResponse())
 
         runBlocking {
@@ -59,11 +57,15 @@ class FlightsProviderTest : ProviderBaseTest<Api>(Api::class) {
     }
 
     @Test(expected = HttpException::class)
-    fun flightsProvider_shouldSearchAndThrowHttpError() {
+    fun flightsRemote_shouldSearchAndThrowHttpError() {
         mockWebServer.enqueue(MockResponse().setResponseCode(401))
 
         runBlocking {
             provider.search("", "", Calendar.getInstance().time).await()
         }
+    }
+
+    private companion object {
+        const val FLIGHTS_JSON = "flights.json"
     }
 }

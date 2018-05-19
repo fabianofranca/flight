@@ -1,13 +1,11 @@
-package com.fabianofranca.flight.providers
+package com.fabianofranca.flight.remote
 
 import android.annotation.SuppressLint
-import com.fabianofranca.flight.providers.api.Api
-import com.fabianofranca.flight.providers.api.ApiConstants
-import com.fabianofranca.flight.providers.api.Request
+import com.fabianofranca.flight.remote.model.SearchData
 import java.text.SimpleDateFormat
 import java.util.*
 
-interface FlightsProvider {
+interface FlightsRemote {
 
     fun search(
         source: String, destination: String, dateOfDeparture: Date,
@@ -16,7 +14,7 @@ interface FlightsProvider {
     ): Request<SearchData>
 }
 
-class FlightsProviderImpl(private val api: Api) : FlightsProvider {
+class FlightsRemoteImpl(private val api: Api) : FlightsRemote {
 
     @SuppressLint("SimpleDateFormat")
     override fun search(
@@ -32,6 +30,6 @@ class FlightsProviderImpl(private val api: Api) : FlightsProvider {
         val departure = dateFormat.format(dateOfDeparture)
         val arrival: String? = dateOfArrival?.let { dateFormat.format(dateOfArrival) }
 
-        return api.search(source, destination, departure, dateOfArrival =  arrival)
+        return api.search(source, destination, departure, dateOfArrival = arrival)
     }
 }

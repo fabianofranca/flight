@@ -1,6 +1,6 @@
-package com.fabianofranca.flight.providers.api
+package com.fabianofranca.flight.remote
 
-import com.fabianofranca.flight.providers.SearchData
+import com.fabianofranca.flight.remote.model.SearchData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

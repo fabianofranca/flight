@@ -1,0 +1,30 @@
+{
+  "origin": "CNF",
+  "DepartureTime": "2018-12-08T09:20:00.000-02:00",
+  "duration": "1h 0m",
+  "flightno": "3025",
+  "destination": "SDU",
+  "stops": "0",
+  "carrierid": "G3",
+  "fare": {
+    "totalfare": 10819
+  },
+  "returnfl": [
+    {
+      "origin": "GIG",
+      "DepartureTime": "2018-12-09T20:10:00.000-02:00",
+      "duration": "2h 25m",
+      "flightno": "4793",
+      "stops": "1",
+      "destination": "CNF",
+      "carrierid": "G3",
+      "fare": {
+        "totalsurcharge": 0
+      },
+      "ArrivalTime": "2018-12-09T22:35:00.000-02:00",
+      "airline": "Gol Air"
+    }
+  ],
+  "ArrivalTime": "2018-12-08T10:20:00.000-02:00",
+  "airline": "Gol Air"
+}
