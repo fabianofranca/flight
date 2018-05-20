@@ -2,12 +2,10 @@ package com.fabianofranca.flight.ui
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fabianofranca.flight.tools.BaseTest
-import com.fabianofranca.flight.ui.model.Search
 import com.fabianofranca.flight.ui.viewModel.SearchViewModel
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class SearchViewModelTest : BaseTest() {
 
@@ -15,22 +13,17 @@ class SearchViewModelTest : BaseTest() {
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    //TODO: Revisar testes
+
     @Test
-    fun searchViewModel_shouldShowSearchResult() {
+    fun searchViewModel_shouldSearching() {
 
-        val viewModel = SearchViewModel()
+        var work = false
 
-        val date = Calendar.getInstance().time
-        val search = Search("", "", date)
+        val viewModel = SearchViewModel({ work = true })
 
-        var searchArg: Search? = null
+        viewModel.search("", "", 0)
 
-        viewModel.showSearchResult = { searchArg = it }
-
-        viewModel.search.value = search
-
-        viewModel.search()
-
-        assertEquals(search, searchArg)
+        assertTrue(work)
     }
 }

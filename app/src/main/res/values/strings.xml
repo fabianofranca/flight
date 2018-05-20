@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">flight</string>
+    <string name="iata_departure">IATA Origem</string>
+    <string name="iata_destination">IATA Destino</string>
+    <string name="departure_date">Data da ida</string>
+    <string name="arrival_date">Data da volta</string>
+    <string name="number_of_passengers">Quantidade de passageiros</string>
+    <string name="search_flight_tickets">Pesquisar passagem</string>
 </resources>

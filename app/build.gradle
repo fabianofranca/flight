@@ -5,11 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion versions.target_sdk
     defaultConfig {
         applicationId "com.fabianofranca.flight"
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion versions.min_sdk
+        targetSdkVersion versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,32 +21,42 @@ android {
         }
     }
 }
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
-    // Testes
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation 'org.mockito:mockito-core:2.18.3'
-    testImplementation "android.arch.core:core-testing:1.1.1"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 
-    // Retrofit
-    api "com.squareup.retrofit2:retrofit:$retrofit_version"
-    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.google.code.gson:gson:$gson_version"
+    // Support
+    implementation "com.android.support:appcompat-v7:$versions.support"
+    implementation "com.android.support:support-v4:$versions.support"
+    implementation "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
+    implementation "com.android.support:cardview-v7:$versions.support"
+
+    // Android Architecture Components
+    implementation "android.arch.lifecycle:extensions:$versions.arch"
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
 
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    api "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+
+    // Others
+    implementation "com.google.code.gson:gson:$versions.gson"
+
+    // Test
+    testImplementation "junit:junit:$versions.junit"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
+    testImplementation "android.arch.core:core-testing:$versions.arch"
+    androidTestImplementation "com.android.support.test:runner:$versions.test_runner"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$versions.espresso"
 }
+
 
 kotlin {
     experimental {
