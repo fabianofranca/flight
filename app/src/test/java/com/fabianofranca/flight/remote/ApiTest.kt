@@ -29,7 +29,7 @@ class ApiTest : RetrofitTest<Api>(Api::class) {
     }
 
     @Test(expected = UnexpectedServerException::class)
-    fun flightsRemote_shouldSearchAndThrowErrorBecauseNullBody() {
+    fun api_shouldSearchAndThrowErrorBecauseNullBody() {
         mockWebServer.enqueue(MockResponse().setBody(Gson().toJson(null)))
 
         runBlocking {
@@ -38,7 +38,7 @@ class ApiTest : RetrofitTest<Api>(Api::class) {
     }
 
     @Test(expected = UnexpectedServerException::class)
-    fun flightsRemote_shouldSearchAndThrowErrorBecauseUnknownBehavior() {
+    fun api_shouldSearchAndThrowErrorBecauseUnknownBehavior() {
         mockWebServer.enqueue(MockResponse())
 
         runBlocking {
@@ -47,7 +47,7 @@ class ApiTest : RetrofitTest<Api>(Api::class) {
     }
 
     @Test(expected = HttpException::class)
-    fun flightsRemote_shouldSearchAndThrowHttpError() {
+    fun api_shouldSearchAndThrowHttpError() {
         mockWebServer.enqueue(MockResponse().setResponseCode(401))
 
         runBlocking {
