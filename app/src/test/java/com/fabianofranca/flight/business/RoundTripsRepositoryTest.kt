@@ -30,7 +30,7 @@ class RoundTripsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun search_shouldReturnRoundTrips() {
+    fun roundTripsRepository_shouldReturnRoundTrips() {
         val date = Calendar.getInstance().time
 
         Mockito.`when`(remote.search("", "", date, null, Constants.ADULTS))

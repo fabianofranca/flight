@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 class RoundTripDeserializerTest : BaseTest() {
 
     @Test
-    fun deserialize_shouldDeserializeAndFormatData() {
+    fun roundTripDeserializer_shouldDeserializeAndFormatData() {
         val parser = JsonParser()
         val element: JsonElement = parser.parse(stringFileContent(FLIGHT_JSON)).asJsonObject
         val deserializer = RoundTripDeserializer()
