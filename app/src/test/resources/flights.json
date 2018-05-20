@@ -29,7 +29,7 @@
         "refundable": "true",
         "PromotionId": "",
         "fare": {
-          "totalfare": 10819,
+          "totalfare": 10819.12,
           "totalbasefare": 9705,
           "adultbasefare": 9705,
           "grossamount": 10819,

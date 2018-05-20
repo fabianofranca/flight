@@ -32,7 +32,6 @@ class RoundTripDeserializer : JsonDeserializer<RoundTrip> {
 
         val outboundRaw = json.asJsonObject
         val inboundRaw = outboundRaw[RETURN_FL].asJsonArray[0].asJsonObject
-        //TODO: Testar com números com pontos flutuantes
         val price = outboundRaw[FARE].asJsonObject[TOTAL_FARE].asDouble
 
         return RoundTrip(createFlight(outboundRaw), createFlight(inboundRaw), price)
