@@ -2,6 +2,7 @@ package com.fabianofranca.flight.remote
 
 import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.remote.model.SearchData
+import com.fabianofranca.flight.remote.tools.Request
 import retrofit2.http.GET
 import retrofit2.http.Query
 

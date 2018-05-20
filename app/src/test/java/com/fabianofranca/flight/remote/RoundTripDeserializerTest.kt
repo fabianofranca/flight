@@ -1,7 +1,7 @@
 package com.fabianofranca.flight.remote
 
 import com.fabianofranca.flight.business.model.RoundTrip
-import com.fabianofranca.flight.utils.BaseTest
+import com.fabianofranca.flight.tools.BaseTest
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import org.junit.Test

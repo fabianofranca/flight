@@ -1,5 +1,6 @@
-package com.fabianofranca.flight.business
+package com.fabianofranca.flight.business.repository
 
+import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.Async
 import com.fabianofranca.flight.remote.FlightsRemote
@@ -15,7 +16,8 @@ interface RoundTripsRepository {
 
 }
 
-class RoundTripsRepositoryImpl(private val remote: FlightsRemote) : RoundTripsRepository {
+class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
+    RoundTripsRepository {
     override fun search(
         departure: String,
         destination: String,

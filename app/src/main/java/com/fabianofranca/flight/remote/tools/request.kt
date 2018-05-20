@@ -1,4 +1,4 @@
-package com.fabianofranca.flight.remote
+package com.fabianofranca.flight.remote.tools
 
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async

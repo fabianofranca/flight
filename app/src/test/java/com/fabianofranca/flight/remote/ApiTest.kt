@@ -1,7 +1,9 @@
 package com.fabianofranca.flight.remote
 
 import com.fabianofranca.flight.remote.model.SearchData
-import com.fabianofranca.flight.utils.RetrofitTest
+import com.fabianofranca.flight.remote.tools.HttpException
+import com.fabianofranca.flight.remote.tools.UnexpectedServerException
+import com.fabianofranca.flight.tools.RetrofitTest
 import com.google.gson.Gson
 import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.mockwebserver.MockResponse

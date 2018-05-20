@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.Async
+import com.fabianofranca.flight.remote.tools.remote
 import java.text.SimpleDateFormat
 import java.util.*
 

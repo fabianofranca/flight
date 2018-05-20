@@ -1,4 +1,4 @@
-package com.fabianofranca.flight.utils
+package com.fabianofranca.flight.tools
 
 import com.fabianofranca.flight.infrastructure.Async
 import com.google.gson.Gson

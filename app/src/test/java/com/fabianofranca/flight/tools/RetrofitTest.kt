@@ -1,7 +1,7 @@
-package com.fabianofranca.flight.utils
+package com.fabianofranca.flight.tools
 
-import com.fabianofranca.flight.remote.RequestAdapterFactory
 import com.fabianofranca.flight.remote.buildGsonConverter
+import com.fabianofranca.flight.remote.tools.RequestAdapterFactory
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit

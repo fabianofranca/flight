@@ -1,6 +1,6 @@
-package com.fabianofranca.flight.utils
+package com.fabianofranca.flight.tools
 
-import com.fabianofranca.flight.remote.Request
+import com.fabianofranca.flight.remote.tools.Request
 
 abstract class RemoteBaseTest : BaseTest() {
 

@@ -1,4 +1,4 @@
-package com.fabianofranca.flight.remote
+package com.fabianofranca.flight.remote.tools
 
 import com.fabianofranca.flight.infrastructure.Async
 import com.fabianofranca.flight.infrastructure.AsyncContext

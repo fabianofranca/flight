@@ -2,8 +2,8 @@ package com.fabianofranca.flight.remote
 
 import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.remote.ApiConstants.DATE_FORMAT
-import com.fabianofranca.flight.utils.AsyncTestRule
-import com.fabianofranca.flight.utils.RemoteBaseTest
+import com.fabianofranca.flight.tools.AsyncTestRule
+import com.fabianofranca.flight.tools.RemoteBaseTest
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Rule
 import org.junit.Test
