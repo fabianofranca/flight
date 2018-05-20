@@ -1,7 +1,7 @@
 package com.fabianofranca.flight.remote
 
-import com.fabianofranca.flight.BaseTest
 import com.fabianofranca.flight.business.model.RoundTrip
+import com.fabianofranca.flight.utils.BaseTest
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import org.junit.Test
@@ -15,7 +15,7 @@ class RoundTripDeserializerTest : BaseTest() {
     @Test
     fun deserialize_shouldDeserializeAndFormatData() {
         val parser = JsonParser()
-        val element: JsonElement = parser.parse(getStringFileContent(FLIGHT_JSON)).asJsonObject
+        val element: JsonElement = parser.parse(stringFileContent(FLIGHT_JSON)).asJsonObject
         val deserializer = RoundTripDeserializer()
 
         val roundTrip = deserializer.deserialize(element, RoundTrip::class.java, null)

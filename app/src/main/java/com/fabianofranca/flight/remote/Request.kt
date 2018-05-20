@@ -9,7 +9,16 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class Request<out R>(deferred: Deferred<R>) : Deferred<R> by deferred
+class Request<out R>(deferred: Deferred<R>) : Deferred<R> by deferred {
+
+    companion object {
+        fun <T> create(block: () -> T): Request<T> {
+            val deferred = async { block() }
+
+            return Request(deferred)
+        }
+    }
+}
 
 class RequestAdapterFactory : CallAdapter.Factory() {
 

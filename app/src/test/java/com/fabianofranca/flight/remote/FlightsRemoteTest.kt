@@ -1,68 +1,71 @@
 package com.fabianofranca.flight.remote
 
-import com.fabianofranca.flight.remote.model.SearchData
-import com.google.gson.Gson
+import com.fabianofranca.flight.business.Constants
+import com.fabianofranca.flight.remote.ApiConstants.DATE_FORMAT
+import com.fabianofranca.flight.utils.AsyncTestRule
+import com.fabianofranca.flight.utils.RemoteBaseTest
 import kotlinx.coroutines.experimental.runBlocking
-import okhttp3.mockwebserver.MockResponse
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
-import java.util.*
-import kotlin.test.assertNotNull
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import java.text.SimpleDateFormat
 
-class FlightsRemoteTest : RemoteBaseTest<Api>(Api::class) {
-
-    private lateinit var provider: FlightsRemote
+class FlightsRemoteTest : RemoteBaseTest() {
 
     @Rule
     @JvmField
-    val expectedException = ExpectedException.none()!!
+    val coroutineTestRule = AsyncTestRule()
 
-    @Before
-    fun setup() {
-        provider = FlightsRemoteImpl(api)
+    private lateinit var remote: FlightsRemote
+
+    @Mock
+    private lateinit var api: Api
+
+    override fun setup() {
+        super.setup()
+        remote = FlightsRemoteImpl(api)
     }
 
     @Test
     fun flightsRemote_shouldSearchFlights() {
 
-        var searchData: SearchData? = null
+        `when`(
+            api.search(
+                "",
+                "",
+                "20180101",
+                ApiConstants.APP_ID,
+                ApiConstants.APP_KEY,
+                ApiConstants.FORMAT,
+                null,
+                Constants.ADULTS,
+                100
+            )
+        ).thenReturn(
+            requestFromFile(
+                FLIGHTS_JSON
+            )
+        )
 
-        mockJsonResponse(FLIGHTS_JSON)
-
-        runBlocking {
-            searchData = provider.search("", "", Calendar.getInstance().time).await()
-        }
-
-        assertNotNull(searchData?.data?.onwardFlights)
-    }
-
-    @Test(expected = UnexpectedServerException::class)
-    fun flightsRemote_shouldSearchAndThrowErrorBecauseNullBody() {
-        mockWebServer.enqueue(MockResponse().setBody(Gson().toJson(null)))
-
-        runBlocking {
-            provider.search("", "", Calendar.getInstance().time).await()
-        }
-    }
-
-    @Test(expected = UnexpectedServerException::class)
-    fun flightsRemote_shouldSearchAndThrowErrorBecauseUnknownBehavior() {
-        mockWebServer.enqueue(MockResponse())
+        val date = SimpleDateFormat(DATE_FORMAT).parse("20180101")
 
         runBlocking {
-            provider.search("", "", Calendar.getInstance().time).await()
+            remote.search("", "", date).await()
         }
-    }
 
-    @Test(expected = HttpException::class)
-    fun flightsRemote_shouldSearchAndThrowHttpError() {
-        mockWebServer.enqueue(MockResponse().setResponseCode(401))
-
-        runBlocking {
-            provider.search("", "", Calendar.getInstance().time).await()
-        }
+        verify(api).search(
+            "",
+            "",
+            "20180101",
+            ApiConstants.APP_ID,
+            ApiConstants.APP_KEY,
+            ApiConstants.FORMAT,
+            null,
+            Constants.ADULTS,
+            100
+        )
     }
 
     private companion object {

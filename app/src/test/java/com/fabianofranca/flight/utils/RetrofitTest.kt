@@ -1,12 +1,13 @@
-package com.fabianofranca.flight.remote
+package com.fabianofranca.flight.utils
 
-import com.fabianofranca.flight.BaseTest
+import com.fabianofranca.flight.remote.RequestAdapterFactory
+import com.fabianofranca.flight.remote.buildGsonConverter
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import kotlin.reflect.KClass
 
-abstract class RemoteBaseTest<out T : Any>(kclass: KClass<T>) : BaseTest() {
+abstract class RetrofitTest<out T : Any>(kclass: KClass<T>) : BaseTest() {
 
     protected val mockWebServer: MockWebServer = MockWebServer()
     protected val api: T
@@ -23,6 +24,6 @@ abstract class RemoteBaseTest<out T : Any>(kclass: KClass<T>) : BaseTest() {
     }
 
     fun mockJsonResponse(file: String) {
-        mockWebServer.enqueue(MockResponse().setBody(getStringFileContent(file)))
+        mockWebServer.enqueue(MockResponse().setBody(stringFileContent(file)))
     }
 }
