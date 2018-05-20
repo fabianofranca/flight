@@ -11,8 +11,10 @@ import java.util.*
 interface FlightsRemote {
 
     fun search(
-        source: String, destination: String, dateOfDeparture: Date,
-        dateOfArrival: Date? = null,
+        source: String,
+        destination: String,
+        departureDate: Date,
+        arrivalDate: Date? = null,
         adults: Int = Constants.ADULTS
     ): Async<Set<RoundTrip>>
 }
@@ -23,16 +25,16 @@ class FlightsRemoteImpl(private val api: Api) : FlightsRemote {
     override fun search(
         source: String,
         destination: String,
-        dateOfDeparture: Date,
-        dateOfArrival: Date?,
+        departureDate: Date,
+        arrivalDate: Date?,
         adults: Int
     ): Async<Set<RoundTrip>> = remote {
         val dateFormat = SimpleDateFormat(ApiConstants.DATE_FORMAT)
 
-        val departure = dateFormat.format(dateOfDeparture)
-        val arrival: String? = dateOfArrival?.let { dateFormat.format(dateOfArrival) }
+        val departure = dateFormat.format(departureDate)
+        val arrival: String? = arrivalDate?.let { dateFormat.format(arrivalDate) }
 
-        api.search(source, destination, departure, dateOfArrival = arrival).await()
+        api.search(source, destination, departure, arrivalDate = arrival).await()
             .data.onwardFlights
     }
 }

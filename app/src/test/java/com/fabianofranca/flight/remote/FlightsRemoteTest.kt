@@ -4,7 +4,6 @@ import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.remote.ApiConstants.DATE_FORMAT
 import com.fabianofranca.flight.tools.AsyncTestRule
 import com.fabianofranca.flight.tools.RemoteBaseTest
-import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
@@ -16,7 +15,7 @@ class FlightsRemoteTest : RemoteBaseTest() {
 
     @Rule
     @JvmField
-    val coroutineTestRule = AsyncTestRule()
+    val async = AsyncTestRule()
 
     private lateinit var remote: FlightsRemote
 
@@ -51,7 +50,7 @@ class FlightsRemoteTest : RemoteBaseTest() {
 
         val date = SimpleDateFormat(DATE_FORMAT).parse("20180101")
 
-        runBlocking {
+        async.run {
             remote.search("", "", date).await()
         }
 

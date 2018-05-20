@@ -12,11 +12,11 @@ interface Api {
     fun search(
         @Query("source") source: String,
         @Query("destination") destination: String,
-        @Query("dateofdeparture") dateOfDeparture: String,
+        @Query("dateofdeparture") departureDate: String,
         @Query("app_id") appId: String = ApiConstants.APP_ID,
         @Query("app_key") appKey: String = ApiConstants.APP_KEY,
         @Query("format") format: String = ApiConstants.FORMAT,
-        @Query("dateofarrival") dateOfArrival: String? = null,
+        @Query("dateofarrival") arrivalDate: String? = null,
         @Query("adults") adults: Int = Constants.ADULTS,
         @Query("counter") counter: Int = 100
     ): Request<SearchData>

@@ -3,9 +3,7 @@ package com.fabianofranca.flight.business
 import com.fabianofranca.flight.business.repository.RoundTripsRepository
 import com.fabianofranca.flight.business.repository.RoundTripsRepositoryImpl
 import com.fabianofranca.flight.remote.FlightsRemote
-import com.fabianofranca.flight.tools.AsyncTestRule
 import com.fabianofranca.flight.tools.BaseTest
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -13,10 +11,6 @@ import org.mockito.Mockito.verify
 import java.util.*
 
 class RoundTripsRepositoryTest : BaseTest() {
-
-    @Rule
-    @JvmField
-    val asyncTestRule = AsyncTestRule()
 
     @Mock
     lateinit var remote: FlightsRemote

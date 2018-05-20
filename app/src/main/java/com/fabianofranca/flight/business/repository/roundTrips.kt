@@ -9,8 +9,10 @@ import java.util.*
 interface RoundTripsRepository {
 
     fun search(
-        departure: String, destination: String, dateOfDeparture: Date,
-        dateOfArrival: Date? = null,
+        departure: String,
+        destination: String,
+        departureDate: Date,
+        arrivalDate: Date? = null,
         adults: Int = Constants.ADULTS
     ): Async<Set<RoundTrip>>
 
@@ -21,8 +23,8 @@ class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
     override fun search(
         departure: String,
         destination: String,
-        dateOfDeparture: Date,
-        dateOfArrival: Date?,
+        departureDate: Date,
+        arrivalDate: Date?,
         adults: Int
-    ): Async<Set<RoundTrip>> = remote.search(departure, destination, dateOfDeparture, dateOfArrival)
+    ): Async<Set<RoundTrip>> = remote.search(departure, destination, departureDate, arrivalDate)
 }

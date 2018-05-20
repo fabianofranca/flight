@@ -8,9 +8,5 @@ fun <T> remote(
     block: suspend () -> T
 ) : Async<T> {
 
-    val deferred = async(AsyncContext.current.commonPool) {
-        block()
-    }
-
-    return Async(deferred)
+    return Async.create { block() }
 }

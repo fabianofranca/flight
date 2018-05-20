@@ -1,5 +1,6 @@
 package com.fabianofranca.flight.remote.tools
 
+import com.fabianofranca.flight.infrastructure.AsyncContext
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import retrofit2.Call
@@ -12,8 +13,8 @@ import java.lang.reflect.Type
 class Request<out R>(deferred: Deferred<R>) : Deferred<R> by deferred {
 
     companion object {
-        fun <T> create(block: () -> T): Request<T> {
-            val deferred = async { block() }
+        fun <T> create(block: suspend () -> T): Request<T> {
+            val deferred = async(AsyncContext.current.commonPool) { block() }
 
             return Request(deferred)
         }
@@ -45,31 +46,29 @@ class RequestAdapterFactory : CallAdapter.Factory() {
         CallAdapter<R, Request<R?>> {
 
         override fun adapt(call: Call<R>?): Request<R?> {
-            return Request(deferred(call!!))
+            return Request.create {
+                try {
+                    val response = call!!.execute()
+
+                    if (!response.isSuccessful) {
+                        throw HttpException(
+                            response.code(),
+                            response.message()
+                        )
+                    }
+
+                    response.body() ?: throw UnexpectedServerException()
+                } catch (e: Exception) {
+                    throw when (e) {
+                        is HttpException -> e
+                        else -> UnexpectedServerException(e)
+                    }
+                }
+            }
         }
 
         override fun responseType(): Type {
             return responseType
-        }
-    }
-
-    private fun <R> deferred(call: Call<R>) = async {
-        try {
-            val response = call.execute()
-
-            if (!response.isSuccessful) {
-                throw HttpException(
-                    response.code(),
-                    response.message()
-                )
-            }
-
-            return@async response.body() ?: throw UnexpectedServerException()
-        } catch (e: Exception) {
-            throw when (e) {
-                is HttpException -> e
-                else -> UnexpectedServerException(e)
-            }
         }
     }
 }
