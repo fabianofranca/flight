@@ -28,3 +28,8 @@ class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
         adults: Int
     ): Async<Set<RoundTrip>> = remote.search(departure, destination, departureDate, arrivalDate)
 }
+
+fun Set<RoundTrip>.airlines() = this.map({ it.inboundFlight.airline }).distinct().sorted()
+
+fun List<RoundTrip>.filterByAirLine(airline: String) =
+    this.filter { it.inboundFlight.airline == airline }
