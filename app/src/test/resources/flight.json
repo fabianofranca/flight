@@ -1,6 +1,6 @@
 {
   "origin": "CNF",
-  "DepartureTime": "2018-12-08T09:20:00.000-02:00",
+  "depdate": "2018-12-08t0920",
   "duration": "1h 0m",
   "flightno": "3025",
   "destination": "SDU",
@@ -12,7 +12,7 @@
   "returnfl": [
     {
       "origin": "GIG",
-      "DepartureTime": "2018-12-09T20:10:00.000-02:00",
+      "depdate": "2018-12-09t2010",
       "duration": "2h 25m",
       "flightno": "4793",
       "stops": "1",
@@ -21,10 +21,10 @@
       "fare": {
         "totalsurcharge": 0
       },
-      "ArrivalTime": "2018-12-09T22:35:00.000-02:00",
+      "arrdate": "2018-12-09t2235",
       "airline": "Gol Air"
     }
   ],
-  "ArrivalTime": "2018-12-08T10:20:00.000-02:00",
+  "arrdate": "2018-12-08t1020",
   "airline": "Gol Air"
 }

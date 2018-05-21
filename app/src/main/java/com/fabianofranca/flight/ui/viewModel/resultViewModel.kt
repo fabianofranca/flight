@@ -2,6 +2,7 @@ package com.fabianofranca.flight.ui.viewModel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.business.repository.RoundTripsRepository
 import com.fabianofranca.flight.business.repository.airlines
@@ -11,17 +12,15 @@ import com.fabianofranca.flight.business.tools.failure
 import com.fabianofranca.flight.business.tools.success
 import com.fabianofranca.flight.ui.model.Search
 
-class ResultViewModel(private val repository: RoundTripsRepository) : ViewModel() {
+class ResultViewModel(
+    private val repository: RoundTripsRepository,
+    private val handleException: () -> Unit
+) : ViewModel() {
 
     val roundTrips = MutableLiveData<List<RoundTrip>>()
     val airlines = MutableLiveData<List<String>>()
-    val handleException = MutableLiveData<Boolean>()
 
     private var fullRoundTrips: List<RoundTrip>? = null
-
-    init {
-        handleException.value = false
-    }
 
     fun init(search: Search) {
         business {
@@ -36,7 +35,7 @@ class ResultViewModel(private val repository: RoundTripsRepository) : ViewModel(
                 roundTrips.value = it.sorted()
                 airlines.value = it.airlines()
             } failure {
-                handleException.value = true
+                handleException()
             }
         }
     }
@@ -55,5 +54,17 @@ class ResultViewModel(private val repository: RoundTripsRepository) : ViewModel(
 
     fun clearFilter() {
         roundTrips.value = fullRoundTrips
+    }
+}
+
+class ResultViewModelFactory(private val handleException: () -> Unit) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
+        if (modelClass == ResultViewModel::class.java) {
+            return ResultViewModel(RoundTripsRepository.Instance, handleException) as T
+        }
+
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

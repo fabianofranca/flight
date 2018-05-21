@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.Async
+import com.fabianofranca.flight.remote.tools.RequestAdapterFactory
 import com.fabianofranca.flight.remote.tools.remote
+import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,6 +19,11 @@ interface FlightsRemote {
         arrivalDate: Date? = null,
         adults: Int = Constants.ADULTS
     ): Async<Set<RoundTrip>>
+
+    companion object {
+        val Instance = FlightsRemoteImpl(Api.Instance)
+    }
+
 }
 
 class FlightsRemoteImpl(private val api: Api) : FlightsRemote {

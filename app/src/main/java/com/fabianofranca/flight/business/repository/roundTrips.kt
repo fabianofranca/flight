@@ -16,6 +16,9 @@ interface RoundTripsRepository {
         adults: Int = Constants.ADULTS
     ): Async<Set<RoundTrip>>
 
+    companion object {
+        val Instance = RoundTripsRepositoryImpl(FlightsRemote.Instance)
+    }
 }
 
 class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :

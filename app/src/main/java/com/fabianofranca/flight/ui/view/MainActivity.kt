@@ -1,8 +1,10 @@
 package com.fabianofranca.flight.ui.view
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.fabianofranca.flight.R
+import com.fabianofranca.flight.infrastructure.replaceFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,9 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.main_container, SearchFragment())
+        replace(SearchFragment())
+    }
 
-        transaction.commit()
+    fun replace(fragment: Fragment, name: String? = null) {
+        replaceFragment(R.id.main_container, fragment, name)
     }
 }

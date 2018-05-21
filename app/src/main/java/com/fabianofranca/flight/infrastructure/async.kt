@@ -7,7 +7,7 @@ import kotlin.coroutines.experimental.CoroutineContext
 class Async<T>(deferred: Deferred<T>) : Deferred<T> by deferred {
     companion object {
         fun <T> create(
-            context: CoroutineContext = AsyncContext.current.commonPool,
+            context: CoroutineContext = AsyncContext.Instance.commonPool,
             block: suspend () -> T
         ): Async<T> {
             val deferred = async(context) { block() }
@@ -35,7 +35,7 @@ class AsyncContext {
 
     val executor: AsyncExecutor
     get() {
-        return _executor?.let { it } ?: LaunchExecutor()
+        return _executor?.let { it } ?: NonBlockingExecutor()
     }
 
     fun setContexts(ui: CoroutineContext, commonPool: CoroutineContext) {
@@ -56,23 +56,27 @@ class AsyncContext {
         _executor = null
     }
 
+     suspend inline fun execute(noinline block: suspend () -> Unit) {
+        executor.execute(block)
+    }
+
     companion object {
-        val current = AsyncContext()
+        val Instance = AsyncContext()
     }
 }
 
 sealed class AsyncExecutor {
-    abstract fun execute(block: suspend () -> Unit)
+    abstract suspend fun execute(block: suspend () -> Unit)
 }
 
-class LaunchExecutor : AsyncExecutor() {
-    override fun execute(block: suspend () -> Unit) {
-        launch { block() }
+class NonBlockingExecutor : AsyncExecutor() {
+     override suspend fun execute(block: suspend () -> Unit) {
+        block()
     }
 }
 
-class RunBlockingExecutor : AsyncExecutor() {
-    override fun execute(block: suspend () -> Unit) {
+class BlockingExecutor : AsyncExecutor() {
+    override suspend fun execute(block: suspend () -> Unit) {
         runBlocking { block() }
     }
 }

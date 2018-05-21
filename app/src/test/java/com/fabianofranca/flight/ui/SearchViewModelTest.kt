@@ -1,25 +1,19 @@
 package com.fabianofranca.flight.ui
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fabianofranca.flight.tools.BaseTest
 import com.fabianofranca.flight.ui.viewModel.SearchViewModel
-import org.junit.Rule
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals
 
 class SearchViewModelTest : BaseTest() {
 
-    @Rule
-    @JvmField
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private fun assertDate(date: Date) {
         val calendar = Calendar.getInstance()
         calendar.time = date
 
         assertEquals(calendar.get(Calendar.DAY_OF_MONTH), 1)
-        assertEquals(calendar.get(Calendar.MONTH) + 1, 1)
+        assertEquals(calendar.get(Calendar.MONTH), 0)
         assertEquals(calendar.get(Calendar.YEAR), 2018)
     }
 
@@ -41,7 +35,7 @@ class SearchViewModelTest : BaseTest() {
             assertDate(it.departureDate)
         })
 
-        viewModel.departureDate(2018, 1, 1)
+        viewModel.departureDate(2018, 0, 1)
 
         assertEquals(viewModel.departureDate.value, "01/01/2018")
 
@@ -54,7 +48,7 @@ class SearchViewModelTest : BaseTest() {
             assertDate(it.arrivalDate!!)
         })
 
-        viewModel.arrivalDate(2018, 1, 1)
+        viewModel.arrivalDate(2018, 0, 1)
 
         assertEquals(viewModel.arrivalDate.value, "01/01/2018")
 

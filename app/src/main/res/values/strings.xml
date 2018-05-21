@@ -6,4 +6,7 @@
     <string name="arrival_date">Data da volta</string>
     <string name="number_of_passengers">Quantidade de passageiros</string>
     <string name="search_flight_tickets">Pesquisar passagem</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -14,7 +14,7 @@ class Request<out R>(deferred: Deferred<R>) : Deferred<R> by deferred {
 
     companion object {
         fun <T> create(block: suspend () -> T): Request<T> {
-            val deferred = async(AsyncContext.current.commonPool) { block() }
+            val deferred = async(AsyncContext.Instance.commonPool) { block() }
 
             return Request(deferred)
         }

@@ -84,13 +84,13 @@ class RoundTripDeserializer : JsonDeserializer<RoundTrip> {
     }
 
     private companion object {
-        const val RAW_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-        const val DATE_FORMAT = "EEEE, dd 'de' MMMMM"
+        const val RAW_DATE_FORMAT = "yyyy-MM-dd't'HHmm"
+        const val DATE_FORMAT = "EEEE, dd 'de' MMMM"
         const val TIME_FORMAT = "HH:mm"
         const val ORIGIN = "origin"
         const val DESTINATION = "destination"
-        const val DEPARTURE_TIME = "DepartureTime"
-        const val ARRIVAL_TIME = "ArrivalTime"
+        const val DEPARTURE_TIME = "depdate"
+        const val ARRIVAL_TIME = "arrdate"
         const val FLIGHT_NO = "flightno"
         const val CARRIER_ID = "carrierid"
         const val AIRLINE = "airline"

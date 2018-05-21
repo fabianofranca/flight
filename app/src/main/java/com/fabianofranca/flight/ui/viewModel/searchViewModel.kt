@@ -41,7 +41,7 @@ class SearchViewModel(private val search: (Search) -> Unit) :
 
     private fun date(year: Int, month: Int, dayOfMonth: Int, string: LiveData<String>) : Date {
         val date = Calendar.getInstance()
-        date.set(year, month - 1, dayOfMonth)
+        date.set(year, month, dayOfMonth)
 
         (string as MutableLiveData<String>).value = formatter.format(date.time)
 

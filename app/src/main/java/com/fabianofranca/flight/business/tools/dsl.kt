@@ -4,13 +4,13 @@ import com.fabianofranca.flight.infrastructure.Async
 import com.fabianofranca.flight.infrastructure.AsyncContext
 
 fun business(block: suspend () -> Unit) {
-    Async.create(AsyncContext.current.ui) { block() }
+    Async.create(AsyncContext.Instance.ui) { block() }
 }
 
 suspend infix fun <R> Async<R>.success(block: suspend (R) -> Unit): Exception? {
 
     return try {
-        AsyncContext.current.executor.execute {
+        AsyncContext.Instance.execute {
             block(this.await())
         }
         null

@@ -2,9 +2,7 @@ package com.fabianofranca.flight.remote
 
 import com.fabianofranca.flight.business.Constants
 import com.fabianofranca.flight.remote.ApiConstants.DATE_FORMAT
-import com.fabianofranca.flight.tools.AsyncTestRule
 import com.fabianofranca.flight.tools.RemoteBaseTest
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
@@ -12,10 +10,6 @@ import org.mockito.Mockito.verify
 import java.text.SimpleDateFormat
 
 class FlightsRemoteTest : RemoteBaseTest() {
-
-    @Rule
-    @JvmField
-    val async = AsyncTestRule()
 
     private lateinit var remote: FlightsRemote
 

@@ -26,7 +26,7 @@ class SearchFragment : Fragment() {
     private lateinit var arrivalPicker: DatePickerDialog
 
     private fun search(search: Search) {
-
+        (activity as MainActivity).replace(ResultFragment.newInstance(search), ResultFragment.NAME)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class SearchFragment : Fragment() {
 
     private fun setupIata() {
         viewModel.departure.observe(this, Observer { iata_departure_edit.setText(it) })
-        viewModel.departure.observe(this, Observer { iata_destination_edit.setText(it) })
+        viewModel.destination.observe(this, Observer { iata_destination_edit.setText(it) })
     }
 
     private fun setupDates() {
@@ -85,7 +85,7 @@ class SearchFragment : Fragment() {
 
         viewModel.numberOfPassengers.observe(
             this,
-            Observer { it?.let { number_of_passengers_spinner.setSelection(it) }  })
+            Observer { it?.let { number_of_passengers_spinner.setSelection(it) } })
 
         viewModel.numberOfPassengersRange.value?.let {
             adapter.addAll(listOf(0).union(it))
@@ -100,7 +100,8 @@ class SearchFragment : Fragment() {
             viewModel.search(
                 iata_departure_edit.text.toString(),
                 iata_destination_edit.text.toString(),
-                number_of_passengers_spinner.selectedItemPosition)
+                number_of_passengers_spinner.selectedItemPosition
+            )
         }
     }
 

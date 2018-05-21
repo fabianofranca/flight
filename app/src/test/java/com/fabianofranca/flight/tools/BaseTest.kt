@@ -1,11 +1,21 @@
 package com.fabianofranca.flight.tools
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fabianofranca.flight.infrastructure.Async
 import com.google.gson.Gson
 import org.junit.Before
+import org.junit.Rule
 import org.mockito.MockitoAnnotations
 
 abstract class BaseTest {
+
+    @Rule
+    @JvmField
+    val async = AsyncTestRule()
+
+    @Rule
+    @JvmField
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     open fun setup() {
