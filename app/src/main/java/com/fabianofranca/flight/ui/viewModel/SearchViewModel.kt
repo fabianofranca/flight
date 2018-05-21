@@ -41,9 +41,7 @@ class SearchViewModel(private val search: (Search) -> Unit) :
 
     private fun date(year: Int, month: Int, dayOfMonth: Int, string: LiveData<String>) : Date {
         val date = Calendar.getInstance()
-        date.set(Calendar.YEAR, year)
-        date.set(Calendar.MONTH, month)
-        date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        date.set(year, month - 1, dayOfMonth)
 
         (string as MutableLiveData<String>).value = formatter.format(date.time)
 
@@ -68,7 +66,7 @@ class SearchViewModelFactory(private val search: (Search) -> Unit) : ViewModelPr
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-        if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
+        if (modelClass == SearchViewModel::class.java) {
             return SearchViewModel(search) as T
         }
 
