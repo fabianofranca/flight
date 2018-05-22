@@ -2,21 +2,27 @@ package com.fabianofranca.flight.ui.view
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.fabianofranca.flight.R
+import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.binding
 import com.fabianofranca.flight.infrastructure.compatActivity
 import com.fabianofranca.flight.infrastructure.mainActivity
 import com.fabianofranca.flight.ui.custom.DatePickerControl
 import com.fabianofranca.flight.ui.viewModel.SearchViewModel
+import com.fabianofranca.flight.ui.viewModel.SearchViewModelFactory
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search.*
+import javax.inject.Inject
 
-class SearchFragment : Fragment() {
+class SearchFragment : DaggerFragment() {
     private lateinit var viewModel: SearchViewModel
+
+    @Inject
+    lateinit var factory: SearchViewModelFactory
 
     private lateinit var departurePicker: DatePickerControl
     private lateinit var arrivalPicker: DatePickerControl
@@ -24,11 +30,10 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(compatActivity!!).get(SearchViewModel::class.java)
+        viewModel =
+                ViewModelProviders.of(compatActivity!!, factory).get(SearchViewModel::class.java)
 
-        viewModel.init {
-            mainActivity?.replace(ResultFragment.newInstance(it), ResultFragment.TAG)
-        }
+        viewModel.init(::success, ::failure)
 
         iata_departure_edit.binding(this, viewModel.departure)
         iata_destination_edit.binding(this, viewModel.destination)
@@ -42,6 +47,14 @@ class SearchFragment : Fragment() {
         setupNumberOfPassengers()
 
         search_button.setOnClickListener { viewModel.search() }
+    }
+
+    private fun success(roundTrips: Set<RoundTrip>) {
+        mainActivity?.replace(ResultFragment.newInstance(roundTrips), ResultFragment.TAG)
+    }
+
+    private fun failure() {
+
     }
 
     private fun setupNumberOfPassengers() {

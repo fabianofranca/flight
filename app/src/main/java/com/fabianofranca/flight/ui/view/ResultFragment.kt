@@ -3,6 +3,7 @@ package com.fabianofranca.flight.ui.view
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatCheckBox
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -14,28 +15,22 @@ import com.fabianofranca.flight.R
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.compatActivity
 import com.fabianofranca.flight.ui.adapter.RoundTripAdapter
-import com.fabianofranca.flight.ui.model.Search
 import com.fabianofranca.flight.ui.viewModel.ResultViewModel
 import com.fabianofranca.flight.ui.viewModel.ResultViewModelFactory
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_result.*
-import javax.inject.Inject
 
-private const val ARG_SEARCH = "search"
+private const val ARG_ROUND_TRIPS = "roundTrips"
 
-class ResultFragment : DaggerFragment() {
+class ResultFragment : Fragment() {
 
-    private lateinit var search: Search
+    private lateinit var roundTrips: Array<RoundTrip>
     private lateinit var viewModel: ResultViewModel
     private val roundTripAdapter = RoundTripAdapter()
-
-    @Inject
-    lateinit var factory: ResultViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            search = it.getParcelable(ARG_SEARCH) as Search
+            roundTrips = it.getParcelableArray(ARG_ROUND_TRIPS) as Array<RoundTrip>
         }
         tag
     }
@@ -43,12 +38,12 @@ class ResultFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val factory = ResultViewModelFactory(roundTrips)
+
         viewModel =
                 ViewModelProviders.of(compatActivity!!, factory).get(ResultViewModel::class.java)
 
         viewModel.roundTrips.observe(this, Observer(::update))
-
-        viewModel.init(search, ::handleException)
 
         viewModel.airlines.observe(this, Observer(::filters))
 
@@ -106,9 +101,6 @@ class ResultFragment : DaggerFragment() {
         }
     }
 
-    fun handleException() {
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -120,10 +112,10 @@ class ResultFragment : DaggerFragment() {
         const val TAG = "result"
 
         @JvmStatic
-        fun newInstance(search: Search) =
+        fun newInstance(roundTrips: Set<RoundTrip>) =
             ResultFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_SEARCH, search)
+                    putParcelableArray(ARG_ROUND_TRIPS, roundTrips.toTypedArray())
                 }
             }
     }

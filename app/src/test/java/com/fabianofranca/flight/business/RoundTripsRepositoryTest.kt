@@ -25,7 +25,7 @@ class RoundTripsRepositoryTest : BaseTest() {
     private val tripB = roundTrip("b")
     private val tripC = roundTrip("c")
 
-    private val randomTrips = setOf(tripC, tripA, tripB)
+    private val randomTrips = arrayOf(tripC, tripA, tripB)
 
     private fun flight(airline: String) = Flight("", airline, "", "", "", "", "", false, "")
 
@@ -61,7 +61,7 @@ class RoundTripsRepositoryTest : BaseTest() {
     fun roundTripsRepository_shouldFilter() {
         val filteredTrips = arrayOf(tripA)
 
-        assert(filteredTrips contentEquals randomTrips.toList().filterByAirLine("a").toTypedArray())
+        assert(filteredTrips contentEquals randomTrips.toList().filterByAirLine(setOf("a")).toTypedArray())
     }
 
 }

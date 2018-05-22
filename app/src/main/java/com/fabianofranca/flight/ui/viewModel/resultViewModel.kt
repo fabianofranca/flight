@@ -4,50 +4,27 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.fabianofranca.flight.business.model.RoundTrip
-import com.fabianofranca.flight.business.repository.RoundTripsRepository
 import com.fabianofranca.flight.business.repository.airlines
 import com.fabianofranca.flight.business.repository.filterByAirLine
-import com.fabianofranca.flight.business.tools.business
-import com.fabianofranca.flight.business.tools.failure
-import com.fabianofranca.flight.business.tools.success
-import com.fabianofranca.flight.ui.model.Search
 
-class ResultViewModel(
-    private val repository: RoundTripsRepository
-) : ViewModel() {
+class ResultViewModel(roundTrips: Array<RoundTrip>) : ViewModel() {
 
     val roundTrips = MutableLiveData<List<RoundTrip>>()
     val airlines = MutableLiveData<List<String>>()
     var isAscendingOrder: Boolean = true
         private set
 
-    lateinit var handleException: () -> Unit
-
     private var fullRoundTrips: List<RoundTrip>? = null
 
     private val filters = mutableSetOf<String>()
 
-    fun init(search: Search, handleException: () -> Unit) {
-        this.handleException = handleException
+    init {
+        fullRoundTrips = roundTrips.sorted()
+        this.roundTrips.value = roundTrips.sorted()
+        airlines.value = roundTrips.airlines()
 
-        business {
-            repository.search(
-                search.departure,
-                search.destination,
-                search.departureDate,
-                search.arrivalDate,
-                search.adults
-            ) success {
-                fullRoundTrips = it.sorted()
-                roundTrips.value = it.sorted()
-                airlines.value = it.airlines()
-
-                filters.clear()
-                filters.addAll(airlines.value!!)
-            } failure {
-                handleException()
-            }
-        }
+        filters.clear()
+        filters.addAll(airlines.value!!)
     }
 
     fun sortAscending() {
@@ -81,13 +58,12 @@ class ResultViewModel(
     }
 }
 
-class ResultViewModelFactory(private val repository: RoundTripsRepository) :
-    ViewModelProvider.Factory {
+class ResultViewModelFactory(private val roundTrips: Array<RoundTrip>) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         if (modelClass == ResultViewModel::class.java) {
-            return ResultViewModel(repository) as T
+            return ResultViewModel(roundTrips) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

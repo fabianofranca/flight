@@ -29,7 +29,7 @@ class RoundTripsRepositoryImpl @Inject constructor(private val remote: FlightsRe
     ): Async<Set<RoundTrip>> = remote.search(departure, destination, departureDate, arrivalDate)
 }
 
-fun Set<RoundTrip>.airlines() = this.map({ it.inboundFlight.airline }).distinct().sorted()
+fun Array<RoundTrip>.airlines() = this.map({ it.inboundFlight.airline }).distinct().sorted()
 
 fun List<RoundTrip>.filterByAirLine(airlines: Set<String>) =
     this.filter { airlines.contains(it.inboundFlight.airline) }

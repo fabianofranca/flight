@@ -1,6 +1,6 @@
 package com.fabianofranca.flight.di.module
 
-import com.fabianofranca.flight.ui.view.ResultFragment
+import com.fabianofranca.flight.ui.view.SearchFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBindingModule {
 
     @ContributesAndroidInjector
-    abstract fun resultFragment() : ResultFragment
+    abstract fun searchFragment(): SearchFragment
 }
