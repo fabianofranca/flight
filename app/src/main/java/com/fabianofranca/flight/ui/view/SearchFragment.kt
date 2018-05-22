@@ -1,5 +1,6 @@
 package com.fabianofranca.flight.ui.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -19,6 +20,7 @@ import com.fabianofranca.flight.ui.viewModel.SearchViewModel
 import com.fabianofranca.flight.ui.viewModel.SearchViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search.*
+import java.util.*
 import javax.inject.Inject
 
 class SearchFragment : DaggerFragment() {
@@ -41,48 +43,56 @@ class SearchFragment : DaggerFragment() {
 
         setupIata()
 
-        departurePicker = DatePickerControl(activity!!, departure_date_edit, viewModel.dateFormat)
-        arrivalPicker = DatePickerControl(activity!!, arrival_date_edit, viewModel.dateFormat)
-
-        departure_date_edit.binding(this, viewModel.departureDate)
-        arrival_date_edit.binding(this, viewModel.arrivalDate)
+        setupDate()
 
         setupNumberOfPassengers()
 
+        viewModel.loading.observe(this, Observer(::loading))
+
         search_button.setOnClickListener {
-            toggleProgress()
             viewModel.search()
         }
+
+        viewModel.isValidSearch.observe(this, Observer(::validate))
 
         setupSnackbar()
     }
 
+    private fun setupDate() {
+        departurePicker = DatePickerControl(activity!!, departure_date_edit, viewModel.dateFormat)
+        departurePicker.setMinDate(Calendar.getInstance())
+
+        arrivalPicker = DatePickerControl(activity!!, arrival_date_edit, viewModel.dateFormat)
+        arrivalPicker.setMinDate(Calendar.getInstance())
+
+        viewModel.minDate.observe(this, Observer { it?.let { arrivalPicker.setMinDate(it) } })
+
+        departure_date_edit.binding(this, viewModel.departureDate) { viewModel.validate() }
+
+        arrival_date_edit.binding(this, viewModel.arrivalDate) { viewModel.validate() }
+    }
+
     private fun success(roundTrips: Set<RoundTrip>) {
-        toggleProgress()
         mainActivity?.replace(ResultFragment.newInstance(roundTrips), ResultFragment.TAG)
     }
 
     private fun failure() {
-        toggleProgress()
         snackbar.show()
     }
 
     private fun setupIata() {
-        val adapter = ArrayAdapter.createFromResource(
-            context,
-            R.array.iata,
-            R.layout.number_of_passengers_item
-        )
+        val adapter =
+            ArrayAdapter<CharSequence>(context, R.layout.number_of_passengers_item, viewModel.iata)
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
 
         iata_departure_edit.threshold = 1
         iata_departure_edit.setAdapter(adapter)
-        iata_departure_edit.binding(this, viewModel.departure)
+        iata_departure_edit.binding(this, viewModel.departure) { viewModel.validate() }
 
         iata_destination_edit.threshold = 1
         iata_destination_edit.setAdapter(adapter)
-        iata_destination_edit.binding(this, viewModel.destination)
+        iata_destination_edit.binding(this, viewModel.destination) { viewModel.validate() }
     }
 
     private fun setupNumberOfPassengers() {
@@ -90,7 +100,10 @@ class SearchFragment : DaggerFragment() {
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         adapter.addAll(listOf(0).union(viewModel.numberOfPassengersRange))
         number_of_passengers_spinner.adapter = adapter
-        number_of_passengers_spinner.binding(this, viewModel.numberOfPassengers)
+        number_of_passengers_spinner.binding(
+            this,
+            viewModel.numberOfPassengers
+        ) { viewModel.validate() }
     }
 
     private fun setupSnackbar() {
@@ -99,17 +112,20 @@ class SearchFragment : DaggerFragment() {
         snackbar = Snackbar.make(rootView!!, getString(R.string.error), Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.retry)) {
                 snackbar.dismiss()
-                toggleProgress()
                 viewModel.search()
             }
     }
 
-    private fun toggleProgress() {
-        if (progress.visibility == VISIBLE) {
-            progress.visibility = GONE
-        } else {
+    private fun loading(loading: Boolean?) {
+        if (loading != null && loading) {
             progress.visibility = VISIBLE
+        } else {
+            progress.visibility = GONE
         }
+    }
+
+    private fun validate(valid: Boolean?) {
+        search_button.isEnabled = valid != null && valid
     }
 
     override fun onCreateView(
@@ -117,5 +133,11 @@ class SearchFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activity?.currentFocus?.clearFocus()
     }
 }

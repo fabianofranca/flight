@@ -11,34 +11,26 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DatePickerControl(
-    activity: Activity,
-    editText: EditText,
+    private val activity: Activity,
+    private val editText: EditText,
     private val dateFormat: SimpleDateFormat
 ) {
 
-    private val picker: DatePickerDialog
-    private val today = Calendar.getInstance()
-    private var year = today.get(Calendar.YEAR)
-    private var month = today.get(Calendar.MONTH)
-    private var dayOfMonth = today.get(Calendar.DAY_OF_MONTH)
+    private var picker: DatePickerDialog
+    private val date = Calendar.getInstance()
 
     init {
-
-        val dateSet: (View, Int, Int, Int) -> Unit = { _, year, month, dayOfMonth ->
-            val date = Calendar.getInstance()
-            date.set(Calendar.YEAR, year)
-            date.set(Calendar.MONTH, month)
-            date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            editText.setText(dateFormat.format(date.time))
-        }
-
-        picker = DatePickerDialog(activity, dateSet, year, month, dayOfMonth)
+        picker = DatePickerDialog(
+            activity,
+            ::dateSet,
+            date.get(Calendar.YEAR),
+            date.get(Calendar.MONTH),
+            date.get(Calendar.DAY_OF_MONTH)
+        )
 
         editText.isFocusableInTouchMode = false
 
         editText.setOnClickListener {
-            picker.updateDate(year, month, dayOfMonth)
             activity.hideKeyboard()
             picker.show()
         }
@@ -51,15 +43,40 @@ class DatePickerControl(
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrBlank()) {
-                    val date = Calendar.getInstance()
+                if (!s.isNullOrEmpty()) {
                     date.time = dateFormat.parse(s.toString())
-
-                    year = date.get(Calendar.YEAR)
-                    month = date.get(Calendar.MONTH)
-                    dayOfMonth = date.get(Calendar.DAY_OF_MONTH)
+                    picker.updateDate(
+                        date.get(Calendar.YEAR),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.DAY_OF_MONTH))
                 }
             }
         })
+    }
+
+    private fun dateSet(view: View, year: Int, month: Int, dayOfMonth: Int) {
+        val date = Calendar.getInstance()
+        date.set(Calendar.YEAR, year)
+        date.set(Calendar.MONTH, month)
+        date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        editText.setText(dateFormat.format(date.time))
+    }
+
+    fun setMinDate(date: Calendar) {
+        picker.dismiss()
+
+        var year = this.date.get(Calendar.YEAR)
+        var month = this.date.get(Calendar.MONTH)
+        var dayOfMonth = this.date.get(Calendar.DAY_OF_MONTH)
+
+        if (this.date < date) {
+            year = date.get(Calendar.YEAR)
+            month = date.get(Calendar.MONTH)
+            dayOfMonth = date.get(Calendar.DAY_OF_MONTH)
+        }
+
+        picker = DatePickerDialog(activity, ::dateSet, year, month, dayOfMonth)
+        picker.datePicker.minDate = date.timeInMillis
     }
 }

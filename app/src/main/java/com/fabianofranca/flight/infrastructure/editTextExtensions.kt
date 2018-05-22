@@ -22,7 +22,8 @@ inline fun <reified T> EditText.binding(
 inline fun <reified T> EditText.binding(
     owner: LifecycleOwner,
     liveData: MutableLiveData<T>,
-    oneWay: Boolean = false
+    oneWay: Boolean = false,
+    crossinline change: (T) -> Unit = {}
 ) {
     this.binding(owner, liveData as LiveData<T>)
 
@@ -36,6 +37,7 @@ inline fun <reified T> EditText.binding(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 liveData.value = s.toString() as T
+                change(s.toString() as T)
             }
         })
     }

@@ -3,100 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/iata_departure_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:hint="@string/iata_departure"
-        android:inputType="textCapCharacters"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:hint="@string/iata_departure" />
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/iata_departure_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/iata_departure"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="@string/iata_departure" />
 
-    <android.support.v7.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/iata_destination_edit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/iata_destination"
-        android:inputType="textCapCharacters"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="@+id/iata_departure_edit"
-        app:layout_constraintStart_toStartOf="@+id/iata_departure_edit"
-        app:layout_constraintTop_toBottomOf="@+id/iata_departure_edit"
-        tools:hint="@string/iata_destination" />
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/iata_destination_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/iata_destination"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="@+id/iata_departure_edit"
+            app:layout_constraintStart_toStartOf="@+id/iata_departure_edit"
+            app:layout_constraintTop_toBottomOf="@+id/iata_departure_edit"
+            tools:hint="@string/iata_destination" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/departure_date_edit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:hint="@string/departure_date"
-        android:inputType="date"
-        android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@+id/arrival_date_edit"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iata_destination_edit"
-        tools:hint="@string/departure_date"
-        />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/departure_date_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/departure_date"
+            android:inputType="date"
+            android:singleLine="true"
+            app:layout_constraintEnd_toStartOf="@+id/arrival_date_edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iata_destination_edit"
+            tools:hint="@string/departure_date" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/arrival_date_edit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:hint="@string/arrival_date"
-        android:inputType="date"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/departure_date_edit"
-        app:layout_constraintTop_toTopOf="@+id/departure_date_edit"
-        tools:hint="@string/arrival_date" />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/arrival_date_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:hint="@string/arrival_date"
+            android:inputType="date"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/departure_date_edit"
+            app:layout_constraintTop_toTopOf="@+id/departure_date_edit"
+            tools:hint="@string/arrival_date" />
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/number_of_passengers_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/number_of_passengers_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/arrival_date_edit"
-        app:layout_constraintStart_toStartOf="@+id/departure_date_edit"
-        app:layout_constraintTop_toBottomOf="@+id/departure_date_edit"
-        tools:listitem="@layout/number_of_passengers_item" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/arrival_date_edit"
+            app:layout_constraintStart_toStartOf="@+id/departure_date_edit"
+            app:layout_constraintTop_toBottomOf="@+id/departure_date_edit"
+            tools:listitem="@layout/number_of_passengers_item" />
 
-    <Button
-        android:id="@+id/search_button"
-        style="@style/DefaultButtonAccent"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/search_flight_tickets"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/number_of_passengers_spinner"
-        app:layout_constraintStart_toStartOf="@+id/number_of_passengers_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/number_of_passengers_spinner"
-        tools:text="@string/search_flight_tickets" />
+        <Button
+            android:id="@+id/search_button"
+            style="@style/DefaultButtonAccent"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/search_flight_tickets"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="@+id/number_of_passengers_spinner"
+            app:layout_constraintStart_toStartOf="@+id/number_of_passengers_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/number_of_passengers_spinner"
+            tools:text="@string/search_flight_tickets" />
     </android.support.constraint.ConstraintLayout>
 
     <FrameLayout
@@ -112,6 +116,6 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
     </FrameLayout>
 </FrameLayout>

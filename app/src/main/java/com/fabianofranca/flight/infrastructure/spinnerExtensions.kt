@@ -18,10 +18,11 @@ fun Spinner.binding(
     }
 }
 
-fun Spinner.binding(
+inline fun Spinner.binding(
     owner: LifecycleOwner,
     liveData: MutableLiveData<Int>,
-    oneWay: Boolean = false
+    oneWay: Boolean = false,
+    crossinline change: (Int) -> Unit = {}
 ) {
     this.binding(owner, liveData as LiveData<Int>)
 
@@ -35,6 +36,7 @@ fun Spinner.binding(
                 id: Long
             ) {
                 liveData.value = position
+                change(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
