@@ -58,6 +58,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
     implementation "com.android.support:recyclerview-v7:$versions.support"
     implementation "com.android.support:design:$versions.support"
+    implementation "com.android.support:cardview-v7:$versions.support"
 
     // Android Architecture Components
     implementation "android.arch.lifecycle:extensions:$versions.arch"

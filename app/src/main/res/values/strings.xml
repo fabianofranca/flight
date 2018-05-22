@@ -16,7 +16,10 @@
     <string name="departure">Partida</string>
     <string name="duration">Duração</string>
     <string name="arrival">Chegada</string>
-
+    <string name="going">Ida</string>
+    <string name="returned">Volta</string>
+    <string name="no_stop">voo direto</string>
+    <string name="stop">paradas</string>
 
     <string-array name="iata">
         <item>GYN</item>

@@ -29,7 +29,7 @@ class ResultFragment : Fragment() {
     private lateinit var roundTrips: Array<RoundTrip>
     private var update: Boolean = false
     private lateinit var viewModel: ResultViewModel
-    private val roundTripAdapter = RoundTripAdapter()
+    private lateinit var roundTripAdapter: RoundTripAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +46,8 @@ class ResultFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        roundTripAdapter = RoundTripAdapter(context!!)
 
         compatActivity?.setSupportActionBar(toolbar)
         compatActivity?.supportActionBar?.setDisplayShowTitleEnabled(false)
