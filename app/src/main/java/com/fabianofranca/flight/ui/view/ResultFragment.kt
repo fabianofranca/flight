@@ -2,11 +2,14 @@ package com.fabianofranca.flight.ui.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatCheckBox
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -43,6 +46,10 @@ class ResultFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        compatActivity?.setSupportActionBar(toolbar)
+        compatActivity?.supportActionBar?.setDisplayShowTitleEnabled(false)
+        compatActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (roundTrips.isEmpty()) {
             full_state.visibility = GONE
@@ -104,6 +111,13 @@ class ResultFragment : Fragment() {
 
             it.forEach {
                 val checkbox = AppCompatCheckBox(context)
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    checkbox.setTextAppearance(context, R.style.TextAppearance)
+                } else {
+                    checkbox.setTextAppearance(R.style.TextAppearance)
+                }
+
                 checkbox.isChecked = viewModel.filters.value?.contains(it)!!
                 checkbox.text = it
 
@@ -120,7 +134,17 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_result, container, false)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item != null && item.itemId == android.R.id.home) {
+            compatActivity?.supportFragmentManager?.popBackStack()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

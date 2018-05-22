@@ -11,6 +11,12 @@
     <string name="empty_state">Não foi encontrado nenhum voo</string>
     <string name="error">Estamos enfrentando problemas, tente novamente.</string>
     <string name="retry">Repetir</string>
+    <string name="search_ticket">PESQUISAR PASSAGEM</string>
+    <string name="airline">Cia Aérea</string>
+    <string name="departure">Partida</string>
+    <string name="duration">Duração</string>
+    <string name="arrival">Chegada</string>
+
 
     <string-array name="iata">
         <item>GYN</item>

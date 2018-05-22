@@ -13,7 +13,7 @@
         android:paddingRight="16dp"
         android:singleLine="true"
         android:text="@string/number_of_passengers"
-        android:textAppearance="@style/default_textAppearance"
+        android:textAppearance="@style/TextAppearance"
         android:textColor="@color/cool_grey"
         tools:visibility="visible" />
 
@@ -25,7 +25,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:singleLine="true"
-        android:textAppearance="@style/default_textAppearance"
+        android:textAppearance="@style/TextAppearance"
         android:textColor="@color/colorTextPrimary"
         tools:text="0"
         tools:visibility="gone" />

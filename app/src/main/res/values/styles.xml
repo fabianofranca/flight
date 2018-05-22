@@ -7,27 +7,52 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowBackground">@color/colorPrimaryBackground</item>
+        <item name="homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
     <style name="edit_text">
         <item name="android:textColorHint">@color/cool_grey</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:textAppearance">@style/default_textAppearance</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
     </style>
 
-    <style name="default_textAppearance" parent="TextAppearance.AppCompat">
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/ff_montserrat</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="default_textAppearance_bold" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/ff_montserrat_bold</item>
+    <style name="TextAppearance.Medium">
+        <item name="android:fontFamily">@font/ff_montserrat_medium</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="default_button" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textAppearance">@style/default_textAppearance_bold</item>
+    <style name="TextAppearance.Medium.Secondary">
         <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
 
+    <style name="TextAppearance.Bold">
+        <item name="android:fontFamily">@font/ff_montserrat_bold</item>
+    </style>
+
+    <style name="TextAppearance.Bold.Secondary">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="default_button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textAppearance">@style/TextAppearance.Bold</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="result_button" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.Bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingRight">48dp</item>
+        <item name="android:paddingLeft">48dp</item>
+        <item name="android:textColor">@color/steel_grey</item>
+        <item name="android:background">@drawable/result_button</item>
+    </style>
 </resources>
