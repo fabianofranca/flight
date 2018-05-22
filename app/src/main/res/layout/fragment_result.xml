@@ -61,4 +61,18 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.Group
+        android:id="@+id/full_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="round_trips_recycler,constraintLayout" />
+
+    <TextView
+        android:id="@+id/empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/empty_state"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

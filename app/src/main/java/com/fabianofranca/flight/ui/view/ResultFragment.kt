@@ -16,14 +16,15 @@ import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.compatActivity
 import com.fabianofranca.flight.ui.adapter.RoundTripAdapter
 import com.fabianofranca.flight.ui.viewModel.ResultViewModel
-import com.fabianofranca.flight.ui.viewModel.ResultViewModelFactory
 import kotlinx.android.synthetic.main.fragment_result.*
 
 private const val ARG_ROUND_TRIPS = "roundTrips"
+private const val ARG_UPDATE = "update"
 
 class ResultFragment : Fragment() {
 
     private lateinit var roundTrips: Array<RoundTrip>
+    private var update: Boolean = false
     private lateinit var viewModel: ResultViewModel
     private val roundTripAdapter = RoundTripAdapter()
 
@@ -31,6 +32,11 @@ class ResultFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             roundTrips = it.getParcelableArray(ARG_ROUND_TRIPS) as Array<RoundTrip>
+
+            if (it.containsKey(ARG_UPDATE)) {
+                update = it.getBoolean(ARG_UPDATE)
+                it.remove(ARG_UPDATE)
+            }
         }
         tag
     }
@@ -38,14 +44,23 @@ class ResultFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val factory = ResultViewModelFactory(roundTrips)
+        if (roundTrips.isEmpty()) {
+            full_state.visibility = GONE
+            empty_state.visibility = VISIBLE
+        } else {
+            full_state.visibility = VISIBLE
+            empty_state.visibility = GONE
+        }
 
-        viewModel =
-                ViewModelProviders.of(compatActivity!!, factory).get(ResultViewModel::class.java)
+        viewModel = ViewModelProviders.of(compatActivity!!).get(ResultViewModel::class.java)
 
         viewModel.roundTrips.observe(this, Observer(::update))
 
         viewModel.airlines.observe(this, Observer(::filters))
+
+        if (update) {
+            viewModel.init(roundTrips)
+        }
 
         setupRecycler()
 
@@ -89,7 +104,7 @@ class ResultFragment : Fragment() {
 
             it.forEach {
                 val checkbox = AppCompatCheckBox(context)
-                checkbox.isChecked = true
+                checkbox.isChecked = viewModel.filters.value?.contains(it)!!
                 checkbox.text = it
 
                 checkbox.setOnCheckedChangeListener { _, isChecked ->
@@ -116,6 +131,7 @@ class ResultFragment : Fragment() {
             ResultFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArray(ARG_ROUND_TRIPS, roundTrips.toTypedArray())
+                    putBoolean(ARG_UPDATE, true)
                 }
             }
     }

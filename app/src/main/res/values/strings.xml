@@ -11,4 +11,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="filter">Filtrar</string>
     <string name="order">Ordenar</string>
+    <string name="empty_state">Não foi encontrado nenhum voo</string>
 </resources>
