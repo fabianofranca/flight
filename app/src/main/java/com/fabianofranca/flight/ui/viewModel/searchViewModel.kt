@@ -1,75 +1,39 @@
 package com.fabianofranca.flight.ui.viewModel
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import com.fabianofranca.flight.ui.model.Search
 import java.text.SimpleDateFormat
-import java.util.*
 
-class SearchViewModel(private val search: (Search) -> Unit) :
-    ViewModel() {
+class SearchViewModel : ViewModel() {
 
-    val departure: LiveData<String> = MutableLiveData()
-    val destination: LiveData<String> = MutableLiveData()
-    val departureDate: LiveData<String> = MutableLiveData()
-    val arrivalDate: LiveData<String> = MutableLiveData()
-    val numberOfPassengers: LiveData<Int> = MutableLiveData()
-    val numberOfPassengersRange: LiveData<List<Int>>
+    private lateinit var _search: (Search) -> Unit
 
-    private val _search = Search("", "", Calendar.getInstance().time)
+    val departure = MutableLiveData<String>()
+    val destination = MutableLiveData<String>()
+    val departureDate = MutableLiveData<String>()
+    val arrivalDate = MutableLiveData<String>()
+    val numberOfPassengers = MutableLiveData<Int>()
+
+    val numberOfPassengersRange = (1..9).toList()
 
     @SuppressLint("SimpleDateFormat")
-    private val formatter = SimpleDateFormat("dd/MM/yyyy")
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-    init {
-        val range = MutableLiveData<List<Int>>()
-        range.value = (1..9).toList()
-
-        numberOfPassengersRange = range
+    fun init(search: (Search) -> Unit) {
+        _search = search
     }
 
-    fun departureDate(year: Int, month: Int, dayOfMonth: Int) {
-        _search.departureDate = date(year, month, dayOfMonth, departureDate)
-    }
+    fun search() {
+        if (::_search.isInitialized) {
+            val departure = this.departure.value?.toUpperCase()?.trim()
+            val destination = this.destination.value?.toUpperCase()?.trim()
+            val departureDate = dateFormat.parse(this.departureDate.value)
+            val arrivalDate = dateFormat.parse(this.arrivalDate.value)
+            val adults = numberOfPassengers.value
 
-    fun arrivalDate(year: Int, month: Int, dayOfMonth: Int) {
-        _search.arrivalDate = date(year, month, dayOfMonth, arrivalDate)
-    }
-
-    private fun date(year: Int, month: Int, dayOfMonth: Int, string: LiveData<String>) : Date {
-        val date = Calendar.getInstance()
-        date.set(year, month, dayOfMonth)
-
-        (string as MutableLiveData<String>).value = formatter.format(date.time)
-
-        return date.time
-    }
-
-    fun search(departure: String, destination: String, numberOfPassengers: Int) {
-        _search.departure = departure.toUpperCase().trim()
-        _search.destination = destination.toUpperCase().trim()
-
-        numberOfPassengersRange.value?.let {
-            if (it.contains(numberOfPassengers)) {
-                _search.adults = numberOfPassengers
-            }
+            _search(Search(departure!!, destination!!, departureDate, arrivalDate, adults!!))
         }
-
-        search(_search)
-    }
-}
-
-class SearchViewModelFactory(private val search: (Search) -> Unit) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
-        if (modelClass == SearchViewModel::class.java) {
-            return SearchViewModel(search) as T
-        }
-
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

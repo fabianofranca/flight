@@ -15,12 +15,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:hint="@string/iata_departure"
-        android:imeOptions="actionSend"
         android:inputType="textCapCharacters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:hint="IATA Origem" />
+        tools:hint="@string/iata_departure" />
 
     <android.support.v7.widget.AppCompatAutoCompleteTextView
         android:id="@+id/iata_destination_edit"
@@ -28,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/iata_destination"
-        android:imeOptions="actionNext"
         android:inputType="textCapCharacters"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@+id/iata_departure_edit"
@@ -45,7 +43,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:focusableInTouchMode="false"
         android:hint="@string/departure_date"
         android:inputType="date"
         android:singleLine="true"
@@ -64,7 +61,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
-        android:focusableInTouchMode="false"
         android:hint="@string/arrival_date"
         android:inputType="date"
         android:singleLine="true"
