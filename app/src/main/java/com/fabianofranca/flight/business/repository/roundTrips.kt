@@ -5,6 +5,7 @@ import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.Async
 import com.fabianofranca.flight.remote.FlightsRemote
 import java.util.*
+import javax.inject.Inject
 
 interface RoundTripsRepository {
 
@@ -15,13 +16,9 @@ interface RoundTripsRepository {
         arrivalDate: Date? = null,
         adults: Int = Constants.ADULTS
     ): Async<Set<RoundTrip>>
-
-    companion object {
-        val Instance = RoundTripsRepositoryImpl(FlightsRemote.Instance)
-    }
 }
 
-class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
+class RoundTripsRepositoryImpl @Inject constructor(private val remote: FlightsRemote) :
     RoundTripsRepository {
     override fun search(
         departure: String,
@@ -35,4 +32,4 @@ class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
 fun Set<RoundTrip>.airlines() = this.map({ it.inboundFlight.airline }).distinct().sorted()
 
 fun List<RoundTrip>.filterByAirLine(airlines: Set<String>) =
-    this.filter {  airlines.contains(it.inboundFlight.airline) }
+    this.filter { airlines.contains(it.inboundFlight.airline) }

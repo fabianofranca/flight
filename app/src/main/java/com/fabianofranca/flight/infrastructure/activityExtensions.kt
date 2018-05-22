@@ -9,12 +9,12 @@ import android.view.inputmethod.InputMethodManager
 
 fun AppCompatActivity.replaceFragment(
     @IdRes container: Int, fragment: Fragment,
-    name: String? = null
+    tag: String? = null
 ) {
     val transaction = this.supportFragmentManager.beginTransaction()
-    transaction.replace(container, fragment)
+    transaction.replace(container, fragment, tag)
 
-    name?.let { transaction.addToBackStack(it) }
+    tag?.let { transaction.addToBackStack(it) }
 
     transaction.commit()
 }

@@ -27,7 +27,7 @@ class SearchFragment : Fragment() {
         viewModel = ViewModelProviders.of(compatActivity!!).get(SearchViewModel::class.java)
 
         viewModel.init {
-            mainActivity?.replace(ResultFragment.newInstance(it), ResultFragment.NAME)
+            mainActivity?.replace(ResultFragment.newInstance(it), ResultFragment.TAG)
         }
 
         iata_departure_edit.binding(this, viewModel.departure)

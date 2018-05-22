@@ -12,10 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        replace(SearchFragment())
+        if (supportFragmentManager.findFragmentByTag(ResultFragment.TAG) == null) {
+            replace(SearchFragment())
+        }
     }
 
-    fun replace(fragment: Fragment, name: String? = null) {
-        replaceFragment(R.id.main_container, fragment, name)
+    fun replace(fragment: Fragment, tag: String? = null) {
+        replaceFragment(R.id.main_container, fragment, tag)
     }
 }

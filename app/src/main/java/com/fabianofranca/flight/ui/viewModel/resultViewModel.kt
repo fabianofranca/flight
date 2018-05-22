@@ -81,12 +81,13 @@ class ResultViewModel(
     }
 }
 
-class ResultViewModelFactory : ViewModelProvider.Factory {
+class ResultViewModelFactory(private val repository: RoundTripsRepository) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         if (modelClass == ResultViewModel::class.java) {
-            return ResultViewModel(RoundTripsRepository.Instance) as T
+            return ResultViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

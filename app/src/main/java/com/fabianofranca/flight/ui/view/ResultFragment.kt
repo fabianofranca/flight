@@ -3,7 +3,6 @@ package com.fabianofranca.flight.ui.view
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatCheckBox
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-
 import com.fabianofranca.flight.R
 import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.compatActivity
@@ -19,28 +17,34 @@ import com.fabianofranca.flight.ui.adapter.RoundTripAdapter
 import com.fabianofranca.flight.ui.model.Search
 import com.fabianofranca.flight.ui.viewModel.ResultViewModel
 import com.fabianofranca.flight.ui.viewModel.ResultViewModelFactory
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_result.*
+import javax.inject.Inject
 
 private const val ARG_SEARCH = "search"
 
-class ResultFragment : Fragment() {
+class ResultFragment : DaggerFragment() {
 
     private lateinit var search: Search
     private lateinit var viewModel: ResultViewModel
     private val roundTripAdapter = RoundTripAdapter()
+
+    @Inject
+    lateinit var factory: ResultViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             search = it.getParcelable(ARG_SEARCH) as Search
         }
+        tag
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(compatActivity!!, ResultViewModelFactory())
-            .get(ResultViewModel::class.java)
+        viewModel =
+                ViewModelProviders.of(compatActivity!!, factory).get(ResultViewModel::class.java)
 
         viewModel.roundTrips.observe(this, Observer(::update))
 
@@ -113,7 +117,7 @@ class ResultFragment : Fragment() {
     }
 
     companion object {
-        const val NAME = "result"
+        const val TAG = "result"
 
         @JvmStatic
         fun newInstance(search: Search) =

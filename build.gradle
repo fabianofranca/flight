@@ -42,4 +42,5 @@ versions.mockwebserver = '3.9.1'
 versions.mockito = '2.18.3'
 versions.test_runner = '1.0.2'
 versions.espresso = '3.0.2'
+versions.dagger = '2.14.1'
 ext.versions = versions
