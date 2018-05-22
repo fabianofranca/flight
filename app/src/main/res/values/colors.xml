@@ -7,4 +7,7 @@
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">#FFFFFF</color>
     <color name="overlay">#d5ffffff</color>
+    <color name="silver">#D8DCDE</color>
+    <color name="shadow">#7fe3e6ea</color>
+    <color name="cool_grey">#879395</color>
 </resources>

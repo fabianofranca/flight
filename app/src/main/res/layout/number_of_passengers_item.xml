@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@android:id/text1"
-    style="?attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
-    android:layout_height="46dp"
-    android:singleLine="true"
-    tools:text="@string/number_of_passengers" />
+    android:layout_height="46dp">
+
+    <TextView
+        android:id="@+id/hint_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:singleLine="true"
+        android:text="@string/number_of_passengers"
+        android:textAppearance="@style/default_textAppearance"
+        android:textColor="@color/cool_grey"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/item_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:singleLine="true"
+        android:textAppearance="@style/default_textAppearance"
+        android:textColor="@color/colorTextPrimary"
+        tools:text="0"
+        tools:visibility="gone" />
+
+</FrameLayout>

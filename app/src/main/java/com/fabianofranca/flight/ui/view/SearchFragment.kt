@@ -15,6 +15,7 @@ import com.fabianofranca.flight.business.model.RoundTrip
 import com.fabianofranca.flight.infrastructure.binding
 import com.fabianofranca.flight.infrastructure.compatActivity
 import com.fabianofranca.flight.infrastructure.mainActivity
+import com.fabianofranca.flight.ui.adapter.SpinnerAdapter
 import com.fabianofranca.flight.ui.custom.DatePickerControl
 import com.fabianofranca.flight.ui.viewModel.SearchViewModel
 import com.fabianofranca.flight.ui.viewModel.SearchViewModelFactory
@@ -82,7 +83,7 @@ class SearchFragment : DaggerFragment() {
 
     private fun setupIata() {
         val adapter =
-            ArrayAdapter<CharSequence>(context, R.layout.number_of_passengers_item, viewModel.iata)
+            ArrayAdapter<CharSequence>(context, R.layout.iata_item, viewModel.iata)
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
 
@@ -96,14 +97,19 @@ class SearchFragment : DaggerFragment() {
     }
 
     private fun setupNumberOfPassengers() {
-        val adapter = ArrayAdapter<Int>(context, R.layout.number_of_passengers_item)
+
+        val list = mutableListOf(0)
+        list.addAll(viewModel.numberOfPassengersRange)
+
+        val adapter = SpinnerAdapter(context!!, R.layout.number_of_passengers_item, list)
+
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        adapter.addAll(listOf(0).union(viewModel.numberOfPassengersRange))
+
         number_of_passengers_spinner.adapter = adapter
-        number_of_passengers_spinner.binding(
-            this,
-            viewModel.numberOfPassengers
-        ) { viewModel.validate() }
+
+        number_of_passengers_spinner.binding(this, viewModel.numberOfPassengers) {
+            viewModel.validate()
+        }
     }
 
     private fun setupSnackbar() {
