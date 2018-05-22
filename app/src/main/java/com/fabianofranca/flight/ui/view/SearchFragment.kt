@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.fabianofranca.flight.R
@@ -47,16 +49,21 @@ class SearchFragment : DaggerFragment() {
 
         setupNumberOfPassengers()
 
-        search_button.setOnClickListener { viewModel.search() }
+        search_button.setOnClickListener {
+            toggleProgress()
+            viewModel.search()
+        }
 
         setupSnackbar()
     }
 
     private fun success(roundTrips: Set<RoundTrip>) {
+        toggleProgress()
         mainActivity?.replace(ResultFragment.newInstance(roundTrips), ResultFragment.TAG)
     }
 
     private fun failure() {
+        toggleProgress()
         snackbar.show()
     }
 
@@ -92,8 +99,17 @@ class SearchFragment : DaggerFragment() {
         snackbar = Snackbar.make(rootView!!, getString(R.string.error), Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.retry)) {
                 snackbar.dismiss()
+                toggleProgress()
                 viewModel.search()
             }
+    }
+
+    private fun toggleProgress() {
+        if (progress.visibility == VISIBLE) {
+            progress.visibility = GONE
+        } else {
+            progress.visibility = VISIBLE
+        }
     }
 
     override fun onCreateView(

@@ -6,4 +6,5 @@
     <color name="colorPrimaryBackground">#EDF3F8</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">#FFFFFF</color>
+    <color name="overlay">#d5ffffff</color>
 </resources>
