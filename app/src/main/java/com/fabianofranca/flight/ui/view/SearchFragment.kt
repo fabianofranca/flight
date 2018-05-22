@@ -35,8 +35,7 @@ class SearchFragment : DaggerFragment() {
 
         viewModel.init(::success, ::failure)
 
-        iata_departure_edit.binding(this, viewModel.departure)
-        iata_destination_edit.binding(this, viewModel.destination)
+        setupIata()
 
         departurePicker = DatePickerControl(activity!!, departure_date_edit, viewModel.dateFormat)
         arrivalPicker = DatePickerControl(activity!!, arrival_date_edit, viewModel.dateFormat)
@@ -55,6 +54,24 @@ class SearchFragment : DaggerFragment() {
 
     private fun failure() {
 
+    }
+
+    private fun setupIata() {
+        val adapter = ArrayAdapter.createFromResource(
+            context,
+            R.array.iata,
+            R.layout.number_of_passengers_item
+        )
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+
+        iata_departure_edit.threshold = 1
+        iata_departure_edit.setAdapter(adapter)
+        iata_departure_edit.binding(this, viewModel.departure)
+
+        iata_destination_edit.threshold = 1
+        iata_destination_edit.setAdapter(adapter)
+        iata_destination_edit.binding(this, viewModel.destination)
     }
 
     private fun setupNumberOfPassengers() {

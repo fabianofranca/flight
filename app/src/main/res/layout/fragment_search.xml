@@ -51,7 +51,8 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iata_destination_edit"
-        tools:hint="@string/departure_date" />
+        tools:hint="@string/departure_date"
+        />
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/arrival_date_edit"
