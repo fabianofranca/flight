@@ -2,6 +2,7 @@ package com.fabianofranca.flight.ui.view
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class SearchFragment : DaggerFragment() {
 
     private lateinit var departurePicker: DatePickerControl
     private lateinit var arrivalPicker: DatePickerControl
+    private lateinit var snackbar: Snackbar
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -46,6 +48,8 @@ class SearchFragment : DaggerFragment() {
         setupNumberOfPassengers()
 
         search_button.setOnClickListener { viewModel.search() }
+
+        setupSnackbar()
     }
 
     private fun success(roundTrips: Set<RoundTrip>) {
@@ -53,7 +57,7 @@ class SearchFragment : DaggerFragment() {
     }
 
     private fun failure() {
-
+        snackbar.show()
     }
 
     private fun setupIata() {
@@ -80,6 +84,16 @@ class SearchFragment : DaggerFragment() {
         adapter.addAll(listOf(0).union(viewModel.numberOfPassengersRange))
         number_of_passengers_spinner.adapter = adapter
         number_of_passengers_spinner.binding(this, viewModel.numberOfPassengers)
+    }
+
+    private fun setupSnackbar() {
+        val rootView = activity?.window?.decorView?.findViewById<View>(android.R.id.content)
+
+        snackbar = Snackbar.make(rootView!!, getString(R.string.error), Snackbar.LENGTH_LONG)
+            .setAction(getString(R.string.retry)) {
+                snackbar.dismiss()
+                viewModel.search()
+            }
     }
 
     override fun onCreateView(
