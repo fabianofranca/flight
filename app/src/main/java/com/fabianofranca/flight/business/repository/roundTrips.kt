@@ -34,5 +34,5 @@ class RoundTripsRepositoryImpl(private val remote: FlightsRemote) :
 
 fun Set<RoundTrip>.airlines() = this.map({ it.inboundFlight.airline }).distinct().sorted()
 
-fun List<RoundTrip>.filterByAirLine(airline: String) =
-    this.filter { it.inboundFlight.airline == airline }
+fun List<RoundTrip>.filterByAirLine(airlines: Set<String>) =
+    this.filter {  airlines.contains(it.inboundFlight.airline) }

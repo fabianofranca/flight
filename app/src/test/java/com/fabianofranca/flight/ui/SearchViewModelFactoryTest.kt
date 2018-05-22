@@ -3,7 +3,6 @@ package com.fabianofranca.flight.ui
 import android.arch.lifecycle.ViewModel
 import com.fabianofranca.flight.tools.BaseTest
 import com.fabianofranca.flight.ui.viewModel.SearchViewModel
-import com.fabianofranca.flight.ui.viewModel.SearchViewModelFactory
 import org.junit.Test
 import kotlin.test.assertNotNull
 
