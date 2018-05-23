@@ -9,7 +9,6 @@ import com.fabianofranca.flight.business.repository.RoundTripsRepository
 import com.fabianofranca.flight.business.tools.business
 import com.fabianofranca.flight.business.tools.failure
 import com.fabianofranca.flight.business.tools.success
-import com.fabianofranca.flight.ui.model.Search
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,15 +59,13 @@ class SearchViewModel(private val repository: RoundTripsRepository, application:
         val arrivalDate = dateFormat.parse(this.arrivalDate.value)
         val adults = numberOfPassengers.value
 
-        val search = Search(departure!!, destination!!, departureDate, arrivalDate, adults!!)
-
         business {
             repository.search(
-                search.departure,
-                search.destination,
-                search.departureDate,
-                search.arrivalDate,
-                search.adults
+                departure!!,
+                destination!!,
+                departureDate,
+                arrivalDate,
+                adults!!
             ) success {
                 loading.value = false
                 success(it)

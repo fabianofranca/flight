@@ -49,7 +49,7 @@ class RoundTripAdapter(val context: Context) : RecyclerView.Adapter<RoundTripAda
                 container.binding(R.id.duration_out_txt, duration)
                 container.binding(R.id.arrival_out_txt, arrivalTime)
                 container.binding(R.id.code_out_txt, flightNumber)
-                container.binding(R.id.departure_out_txt, departureTime)
+                container.binding(R.id.departure_out_txt, departure)
                 container.binding(
                     R.id.type_out_txt,
                     context.getString(if (hasStop) R.string.stop else R.string.no_stop)
@@ -64,7 +64,7 @@ class RoundTripAdapter(val context: Context) : RecyclerView.Adapter<RoundTripAda
                 container.binding(R.id.duration_in_txt, duration)
                 container.binding(R.id.arrival_in_txt, arrivalTime)
                 container.binding(R.id.code_in_txt, flightNumber)
-                container.binding(R.id.departure_in_txt, departureTime)
+                container.binding(R.id.departure_in_txt, departure)
                 container.binding(
                     R.id.type_in_txt,
                     context.getString(if (hasStop) R.string.stop else R.string.no_stop)
